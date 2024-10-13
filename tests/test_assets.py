@@ -21,6 +21,14 @@ def mock_os_listdir():
         # Simula que hay tres imágenes en el directorio
         mock_listdir.return_value = ["0.png", "1.png", "2.png"]
         yield mock_listdir
+        
+def test_load_sprites(mock_pygame, mock_os_listdir):
+    load_sprites()
+    assert "sprite1" in sprites
+    assert "sprite2" in sprites
+    assert sprites["sprite1"] == "MockedImage(assets/sprites/sprite1.png)"
+    assert sprites["sprite2"] == "MockedImage(assets/sprites/sprite2.png)"
+
 
 def test_get_sprite(mock_pygame, mock_os_listdir):
     load_sprites()
