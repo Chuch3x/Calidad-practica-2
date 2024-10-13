@@ -5,7 +5,7 @@ from unittest import mock
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from assets import load_sprites, get_sprite, load_audios, sprites, audios
+from assets import load_sprites, get_sprite, load_audios, play_audio, sprites, audios
 
 
 @pytest.fixture
@@ -49,3 +49,15 @@ def test_load_audios(mock_pygame_sound, mock_os_listdir):
     assert "audio2" in audios
     assert isinstance(audios["audio1"], mock.MagicMock)
     assert isinstance(audios["audio2"], mock.MagicMock)
+
+def test_play_audio():
+    audios.clear()
+    mock_audio = mock.MagicMock()
+    audios["test_audio"] = mock_audio
+    play_audio("test_audio")
+    mock_audio.play.assert_called_once()
+
+def test_play_audio_not_found():
+    audios.clear()
+    with pytest.raises(KeyError):
+        play_audio("non_existent_audio")
