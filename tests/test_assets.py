@@ -30,12 +30,15 @@ def test_load_sprites(mock_pygame, mock_os_listdir):
     load_sprites()
     assert "0" in sprites
     assert "1" in sprites
-    assert sprites["0"] == "MockedImage(assets/sprites/0.png)"
-    assert sprites["1"] == "MockedImage(assets/sprites/1.png)"
+    expected_path = os.path.join("assets", "sprites", "0.png")
+    assert sprites["0"] == f"MockedImage({expected_path})"
+    expected_path = os.path.join("assets", "sprites", "1.png")
+    assert sprites["1"] == f"MockedImage({expected_path})"
 
 def test_get_sprite(mock_pygame, mock_os_listdir):
     load_sprites()
-    assert get_sprite("0") == "MockedImage(assets/sprites/0.png)"
+    expected_path = os.path.join("assets", "sprites", "0.png")
+    assert get_sprite("0") == f"MockedImage({expected_path})"
 
 def test_get_sprite_not_found():
     sprites.clear()
