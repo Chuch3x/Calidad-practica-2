@@ -7,7 +7,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from assets import *
 
-
 @pytest.fixture
 def mock_pygame():
     with mock.patch("pygame.image.load") as mock_load:
