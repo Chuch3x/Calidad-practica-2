@@ -5,7 +5,7 @@ from unittest import mock
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from assets import load_sprites, get_sprite, load_audios, play_audio, sprites, audios
+from assets import *
 
 
 @pytest.fixture
