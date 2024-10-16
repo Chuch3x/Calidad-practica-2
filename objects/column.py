@@ -1,11 +1,8 @@
 import random
-
 import pygame.sprite
-
 import assets
 import configs
 from layer import Layer
-
 
 class Column(pygame.sprite.Sprite):
     def __init__(self, *groups):

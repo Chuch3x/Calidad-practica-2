@@ -60,3 +60,15 @@ def test_column_update_kills_column(mock_assets):
     column.rect.x = -1 
     column.update()
     assert column.alive() is False 
+
+def test_is_passed_when_column_passes_limit(mock_assets):
+    column = Column()
+    column.rect.x = 49 
+    assert column.is_passed() is True
+    assert column.passed is True 
+
+def test_is_passed_when_column_does_not_pass_limit(mock_assets):
+    column = Column()
+    column.rect.x = 51  
+    assert column.is_passed() is False
+    assert column.passed is False 
