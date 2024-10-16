@@ -24,10 +24,10 @@ def mock_pygame():
 
 @pytest.fixture
 def mock_assets():
-    with mock.patch('assets.get_sprite') as mock_get_sprite:
-        mock_sprite = pygame.Surface((50, 100))  
-        mock_get_sprite.return_value = mock_sprite
-        yield mock_get_sprite
+    mock_sprite = pygame.Surface((50, 100)) 
+    with mock.patch('assets.get_sprite', return_value=mock_sprite):
+        yield  
+
 # UNIT TESTS
 @patch('random.uniform')
 def test_column_initialization(mock_uniform, mock_pygame, mock_assets):
@@ -48,3 +48,15 @@ def test_column_initialization(mock_uniform, mock_pygame, mock_assets):
     assert column.rect.midleft[1] == 150
     assert column.rect.midleft[1] >= 100
     assert column.rect.midleft[1] <= configs.SCREEN_HEIGHT - sprite_floor_height - 100
+
+def test_column_update_moves_column(mock_assets):
+    column = Column()
+    column.rect.x = 100 
+    column.update()
+    assert column.rect.x == 98
+
+def test_column_update_kills_column(mock_assets):
+    column = Column()
+    column.rect.x = -1 
+    column.update()
+    assert column.alive() is False 
