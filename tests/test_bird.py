@@ -58,6 +58,3 @@ def test_handle_event(mock_bird_init, event, expected_output):
     bird = Bird()
     bird.handle_event(event)
     assert bird.flap == expected_output
-
-
-

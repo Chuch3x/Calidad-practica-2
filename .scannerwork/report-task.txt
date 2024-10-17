@@ -1,6 +1,6 @@
-projectKey=Calidad-Practica-2
+projectKey=flappy_bird
 serverUrl=http://localhost:9000
 serverVersion=10.6.0.92116
-dashboardUrl=http://localhost:9000/dashboard?id=Calidad-Practica-2
-ceTaskId=a345e8c0-a684-4e52-805b-51ef75d50c5d
-ceTaskUrl=http://localhost:9000/api/ce/task?id=a345e8c0-a684-4e52-805b-51ef75d50c5d
+dashboardUrl=http://localhost:9000/dashboard?id=flappy_bird
+ceTaskId=714b2993-7d38-4648-8c75-30c84c1598ad
+ceTaskUrl=http://localhost:9000/api/ce/task?id=714b2993-7d38-4648-8c75-30c84c1598ad

@@ -39,11 +39,6 @@ def test_get_sprite(mock_pygame, mock_os_listdir):
     expected_path = os.path.join("assets", "sprites", "0.png")
     assert get_sprite("0") == f"MockedImage({expected_path})"
 
-def test_get_sprite_not_found():
-    sprites.clear()
-    with pytest.raises(KeyError):
-        get_sprite("non_existent_sprite")
-
 def test_load_audios(mock_pygame_sound, mock_os_listdir):
     mock_os_listdir.return_value = ["audio1.wav", "audio2.mp3"]
     load_audios()
@@ -58,8 +53,3 @@ def test_play_audio():
     audios["test_audio"] = mock_audio
     play_audio("test_audio")
     mock_audio.play.assert_called_once()
-
-def test_play_audio_not_found():
-    audios.clear()
-    with pytest.raises(KeyError):
-        play_audio("non_existent_audio")

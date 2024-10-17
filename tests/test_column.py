@@ -4,10 +4,9 @@ import pytest
 import pygame
 from unittest import mock
 from unittest.mock import patch
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 import assets
 import configs
-from objects.column import Column
+from objects.column import *
 
 # Inicializar Pygame
 @pytest.fixture(autouse=True)
