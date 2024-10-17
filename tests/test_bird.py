@@ -1,8 +1,11 @@
 import pytest
 import pygame
 from objects.bird import *
+from objects.column import *
+from objects.floor import *
 from assets import *
 from unittest import mock
+from objects.background import *
 import configs
 
 @pytest.fixture
@@ -63,9 +66,9 @@ def test_handle_event(mock_bird_init, event, expected_output):
 @pytest.mark.parametrize(
     "initial_x, expected_x", 
     [
-        (-50, -47),  # Bird moves 3 pixels to the right
-        (49, 52),    # Bird moves 3 pixels to the right
-        (50, 50),    # Bird doesn't move horizontally when x >= 50
+        (-50, -47),
+        (49, 52),
+        (50, 50)
 ]
 )
 def test_update(mock_bird_init, initial_x, expected_x):
@@ -82,40 +85,22 @@ def test_update(mock_bird_init, initial_x, expected_x):
     assert bird.image == bird.images[0]
     assert bird.images[0] != mock_bird_init['mock_surface_1']
 
-@pytest.fixture
-def mock_bird():
-    with mock.patch('objects.bird.assets.get_sprite') as mock_get_sprite, \
-         mock.patch('pygame.mask.from_surface') as mock_from_surface:
-        
-        mock_surface = mock.Mock(spec=pygame.Surface)
-        mock_surface.get_rect.return_value = pygame.Rect(0, 0, 100, 100)
-        mock_get_sprite.return_value = mock_surface
-        mock_from_surface.return_value = mock.Mock()
-        
-        bird = Bird()
-        yield bird
-
-def test_check_collision_no_collision(mock_bird):
-    sprites = [mock.Mock(spec=pygame.sprite.Sprite)]
-    assert not mock_bird.check_collision(sprites)
-
-def test_check_collision_with_column(mock_bird):
-    column = mock.Mock(spec=Column)
-    column.mask = mock.Mock()
-    column.mask.overlap = mock.Mock(return_value=True)
-    column.rect = pygame.Rect(0, 0, 10, 10)
-    sprites = [column]
-    assert mock_bird.check_collision(sprites)
-
-def test_check_collision_with_floor(mock_bird):
-    floor = mock.Mock(spec=Floor)
-    floor.mask = mock.Mock()
-    floor.mask.overlap = mock.Mock(return_value=True)
-    floor.rect = pygame.Rect(0, 0, 10, 10)
-    sprites = [floor]
-    assert mock_bird.check_collision(sprites)
-
-def test_check_collision_bird_above_screen(mock_bird):
-    mock_bird.rect.bottom = -1
-    sprites = [mock.Mock(spec=pygame.sprite.Sprite)]
-    assert mock_bird.check_collision(sprites)
+@pytest.mark.parametrize(
+    "sprites, rect_x, rect_y, rect_bottom, expected_output", 
+    [
+        ([mock.Mock(spec=Column, rect=pygame.Rect(95, 0, 10, 10))], 100, 150, 0, False),
+        ([mock.Mock(spec=Background, rect=pygame.Rect(0, 0, 10, 10))], 0, 0, 0, False),
+        ([mock.Mock(spec=Column, rect=pygame.Rect(95, 150, 10, 10))], 100, 150, 0, True),
+        ([mock.Mock(spec=Column, rect=pygame.Rect(0, 0, 10, 10))], 0, -1, -1, True),
+    ]
+)
+def test_check_collision(sprites, rect_x, rect_y, rect_bottom, expected_output):
+    assets.load_sprites()
+    bird = Bird()
+    # bird.mask = pygame.mask.from_surface(assets.sprites["redbird-midflap"])
+    bird.rect = pygame.Rect(rect_x, rect_y, 10, 10)
+    bird.rect.bottom = rect_bottom
+    # for sprite in sprites:
+    #     sprite.mask = pygame.mask.from_surface(assets.sprites["pipe-green"])
+    # print(bird.mask, sprite.mask)
+    assert bird.check_collision(sprites) == expected_output
