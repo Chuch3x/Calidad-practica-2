@@ -1,5 +1,4 @@
 import pygame
-
 import assets
 import configs
 from objects.background import Background
